@@ -24,148 +24,215 @@
     body {
       font-family: 'Cairo', sans-serif;
       background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       min-height: 100vh;
-      padding-bottom: 30px;
+      padding-bottom: 40px;
       color: var(--text-dark);
       position: relative;
       overflow-x: hidden;
     }
 
-    /* أنيميشن الفقاعات الكيميائية في الخلفية */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* أنيميشن الجزيئات الكيميائية المتطورة */
     .bubbles {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -1; pointer-events: none;
+      z-index: -1; pointer-events: none; overflow: hidden;
     }
     .bubble {
-      position: absolute; bottom: -50px;
-      background: rgba(0, 206, 201, 0.2);
+      position: absolute; bottom: -100px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(0, 206, 201, 0.2));
       border-radius: 50%;
-      border: 1px solid rgba(0, 206, 201, 0.5);
-      animation: rise infinite ease-in;
+      box-shadow: 0 0 15px rgba(0, 206, 201, 0.4), inset 0 0 10px rgba(255,255,255,0.5);
+      animation: floatUp infinite ease-in-out;
     }
-    @keyframes rise {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.8) translateX(0); opacity: 0; }
+      20% { opacity: 0.8; }
+      80% { opacity: 0.6; }
+      100% { transform: translateY(-120vh) scale(1.5) translateX(30px); opacity: 0; }
     }
 
-    /* Header */
+    /* Header - Glassmorphism */
     header {
-      background: rgba(30, 39, 46, 0.85); backdrop-filter: blur(15px);
-      border-bottom: 2px solid var(--primary); padding: 25px 15px;
-      border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
-      box-shadow: 0 10px 30px rgba(0,206,201,0.2);
-      position: relative; text-align: center;
+      background: rgba(30, 39, 46, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 206, 201, 0.3); padding: 30px 15px;
+      border-bottom-left-radius: 50px; border-bottom-right-radius: 50px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), inset 0 -2px 15px rgba(0,206,201,0.1);
+      position: relative; text-align: center; margin-bottom: 30px;
     }
-    h1 { font-size: 1.6rem; font-weight: 800; color: white; text-shadow: 0 0 10px var(--primary); }
-    .slogan { font-size: 0.85rem; color: var(--secondary); margin-top: 8px; letter-spacing: 1px; }
+    h1 { font-size: 1.8rem; font-weight: 800; color: white; text-shadow: 0 0 15px var(--primary); letter-spacing: 1px; }
+    .slogan { font-size: 0.9rem; color: var(--secondary); margin-top: 10px; opacity: 0.9; }
 
     /* Containers & Cards */
-    .container { max-width: 600px; margin: 30px auto; padding: 0 15px; }
+    .container { max-width: 650px; margin: 0 auto; padding: 0 20px; }
     .card {
-      background: var(--card-bg); border-radius: 20px; padding: 25px; margin-bottom: 20px;
-      cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2); text-align: center;
-      font-size: 1.2rem; font-weight: 700; border-right: 5px solid var(--primary);
+      background: var(--card-bg); border-radius: 24px; padding: 25px; margin-bottom: 25px;
+      cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15), inset 0 0 0 2px transparent;
+      text-align: center; font-size: 1.3rem; font-weight: 800; 
+      position: relative; overflow: hidden;
     }
-    .card:active { transform: scale(0.97); }
-    .card:hover { box-shadow: 0 10px 25px rgba(0,206,201,0.3); }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    }
+    .card:active { transform: scale(0.95); }
+    .card:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 15px 40px rgba(0,206,201,0.3), inset 0 0 0 2px rgba(0,206,201,0.3); 
+    }
 
-    .progress-bar { height: 6px; background: #dfe6e9; border-radius: 10px; overflow: hidden; margin-top: 15px; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--success), var(--primary)); width: 0%; transition: width 0.5s ease-out; }
+    .progress-bar { height: 8px; background: #dfe6e9; border-radius: 20px; overflow: hidden; margin-top: 18px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); width: 0%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 20px; position: relative; }
+    .progress-fill::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
     /* Session Cards */
     .session-card {
-      background: var(--card-bg); border-radius: 18px; padding: 18px; margin-bottom: 15px;
-      transition: all 0.3s; border-right: 4px solid #b2bec3;
+      background: var(--card-bg); border-radius: 20px; padding: 20px; margin-bottom: 20px;
+      transition: all 0.3s; position: relative; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.5);
     }
-    .session-card.locked { opacity: 0.9; }
-    .session-card.unlocked { border-right-color: var(--success); box-shadow: 0 0 15px rgba(0, 184, 148, 0.2); }
+    .session-card::before {
+      content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%;
+      background: #b2bec3; transition: 0.3s;
+    }
+    .session-card.locked { opacity: 0.95; filter: grayscale(20%); }
+    .session-card.unlocked { box-shadow: 0 8px 25px rgba(0, 184, 148, 0.15); filter: grayscale(0%); }
+    .session-card.unlocked::before { background: linear-gradient(to bottom, var(--success), #55efc4); }
 
     /* Buttons */
-    .action-buttons { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+    .action-buttons { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
     .action-btn {
-      flex: 1; min-width: 90px; padding: 12px 8px; border: none; border-radius: 12px;
-      font-weight: 700; font-size: 0.85rem; font-family: 'Cairo', sans-serif; cursor: pointer;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      transition: all 0.2s; color: white;
+      flex: 1; min-width: 90px; padding: 14px 10px; border: none; border-radius: 14px;
+      font-weight: 800; font-size: 0.9rem; font-family: 'Cairo', sans-serif; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
+    .action-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); filter: brightness(1.1); }
     .action-btn:active { transform: scale(0.95); }
-    .action-btn.video { background: linear-gradient(45deg, #ff7675, #d63031); }
-    .action-btn.homework { background: linear-gradient(45deg, #74b9ff, #0984e3); }
-    .action-btn.test { background: linear-gradient(45deg, #55efc4, #00b894); }
+    
+    .action-btn.video { background: linear-gradient(135deg, #ff7675, #d63031); }
+    .action-btn.homework { background: linear-gradient(135deg, #74b9ff, #0984e3); }
+    .action-btn.test { background: linear-gradient(135deg, #55efc4, #00b894); }
+    .action-btn:disabled { background: #b2bec3; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    .btn { padding: 12px 25px; border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; margin: 5px; font-family: 'Cairo', sans-serif; transition: 0.3s; }
-    .btn-primary { background: var(--primary); color: var(--dark-bg); box-shadow: 0 4px 15px rgba(0,206,201,0.4); }
-    .btn-danger { background: transparent; color: var(--danger); border: 2px solid var(--danger); }
-    .back-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); margin-top: 20px; width: 100%; backdrop-filter: blur(5px); }
+    .btn { padding: 14px 28px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin: 5px; font-family: 'Cairo', sans-serif; transition: 0.3s; display: inline-flex; justify-content: center; align-items: center; gap: 8px; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: 0 8px 25px rgba(0,206,201,0.4); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,206,201,0.6); }
+    .btn-danger { background: rgba(255, 118, 117, 0.1); color: var(--danger); border: 2px solid var(--danger); }
+    .btn-danger:hover { background: var(--danger); color: white; }
+    .back-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); margin-top: 30px; width: 100%; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .back-btn:hover { background: rgba(255,255,255,0.2); }
 
     /* Modal */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 32, 39, 0.9); backdrop-filter: blur(10px);
+      background: rgba(15, 32, 39, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
       z-index: 1000; display: none; justify-content: center; align-items: center;
+      opacity: 0; transition: opacity 0.3s ease;
     }
     .modal-container {
-      background: var(--card-bg); border-radius: 30px; padding: 30px 20px;
-      text-align: center; width: 90%; max-width: 380px; max-height: 90vh; overflow-y: auto;
-      border: 1px solid var(--primary); box-shadow: 0 0 30px rgba(0,206,201,0.2);
-      animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: var(--card-bg); border-radius: 30px; padding: 35px 25px;
+      text-align: center; width: 92%; max-width: 420px; max-height: 90vh; overflow-y: auto;
+      border: 1px solid rgba(0, 206, 201, 0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      transform: scale(0.8) translateY(30px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .modal-container::-webkit-scrollbar { width: 5px; }
+    .modal-overlay.active { opacity: 1; display: flex; }
+    .modal-overlay.active .modal-container { transform: scale(1) translateY(0); }
+    
+    .modal-container::-webkit-scrollbar { width: 6px; }
     .modal-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-    @keyframes modalPop { from { transform: scale(0.8) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
 
     .password-input {
-      width: 100%; padding: 15px; font-size: 1.4rem; text-align: center;
-      border: 2px solid #dfe6e9; border-radius: 15px; margin: 20px 0;
-      font-family: monospace; letter-spacing: 8px; direction: ltr;
-      background: rgba(255,255,255,0.9); transition: 0.3s;
+      width: 100%; padding: 18px; font-size: 1.8rem; text-align: center;
+      border: 2px solid #dfe6e9; border-radius: 18px; margin: 25px 0;
+      font-family: monospace; letter-spacing: 12px; direction: ltr;
+      background: white; transition: 0.3s; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+      color: var(--dark-bg); font-weight: bold;
     }
-    .password-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px rgba(0,206,201,0.3); }
+    .password-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(0,206,201,0.2), inset 0 2px 10px rgba(0,0,0,0.02); }
 
-    /* تنسيقات قسم الدفع */
+    /* Payment Section */
     .payment-section {
-      background: rgba(0, 206, 201, 0.05); border: 1px dashed var(--primary);
-      border-radius: 15px; padding: 15px; margin-top: 15px; text-align: right;
+      background: linear-gradient(135deg, rgba(0, 206, 201, 0.05), rgba(0, 184, 148, 0.05));
+      border: 1px dashed var(--primary); border-radius: 20px; padding: 20px; margin-top: 25px; text-align: right;
     }
-    .payment-title { color: var(--dark-bg); font-size: 1rem; font-weight: 800; margin-bottom: 10px; text-align: center; }
+    .payment-title { color: var(--dark-bg); font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; text-align: center; }
     .payment-method {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-      background: white; padding: 8px 12px; border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+      background: white; padding: 10px 15px; border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);
     }
-    .payment-method img { width: 25px; height: 25px; object-fit: contain; }
-    .payment-method span { font-size: 0.9rem; font-weight: 700; color: #2d3436; }
+    .payment-method img { width: 30px; height: 30px; object-fit: contain; }
+    .payment-method span { font-size: 0.95rem; font-weight: 700; color: #2d3436; }
     .btn-whatsapp {
-      background: #25D366; color: white; display: flex; align-items: center; justify-content: center;
-      gap: 8px; width: 100%; padding: 12px; border-radius: 12px; text-decoration: none;
-      font-weight: 700; margin-top: 10px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s;
+      background: linear-gradient(135deg, #25D366, #128C7E); color: white; display: flex; align-items: center; justify-content: center;
+      gap: 10px; width: 100%; padding: 14px; border-radius: 14px; text-decoration: none;
+      font-weight: 800; margin-top: 15px; box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3); transition: 0.3s;
     }
-    .btn-whatsapp:hover { background: #128C7E; transform: translateY(-2px); }
+    .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(37, 211, 102, 0.4); }
 
     /* Toast */
     .toast {
-      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-      background: rgba(30, 39, 46, 0.95); color: white; padding: 15px 30px;
-      border-radius: 50px; z-index: 1100; font-size: 0.95rem; font-weight: 600;
-      border: 1px solid var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      animation: toastUp 0.4s ease forwards;
+      position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px);
+      background: rgba(30, 39, 46, 0.95); backdrop-filter: blur(10px); color: white; padding: 16px 32px;
+      border-radius: 50px; z-index: 2000; font-size: 1rem; font-weight: 700;
+      border: 1px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+      opacity: 0; display: flex; align-items: center; gap: 10px; white-space: nowrap;
     }
-    @keyframes toastUp { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    .section-title { color: white; text-align: center; margin-bottom: 25px; font-size: 1.4rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+    .section-title { color: white; text-align: center; margin-bottom: 30px; font-size: 1.6rem; font-weight: 800; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
     
-    /* Chemistry Reaction Animation */
+    /* Chemistry Reaction Animation - Advanced */
     .reaction-particle {
-      position: fixed; border-radius: 50%; pointer-events: none; z-index: 2000;
-      animation: explode 1s ease-out forwards;
+      position: fixed; border-radius: 50%; pointer-events: none; z-index: 3000;
+      box-shadow: 0 0 15px currentColor;
+      animation: explode 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
-    @keyframes explode { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(3) translate(var(--tx), var(--ty)); opacity: 0; } }
+    @keyframes explode { 
+      0% { transform: scale(0) translate(0, 0); opacity: 1; } 
+      100% { transform: scale(2) translate(var(--tx), var(--ty)); opacity: 0; filter: blur(2px); } 
+    }
+
+    /* Global Loader */
+    .loader-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4); z-index: 9999; display: none;
+      justify-content: center; align-items: center; flex-direction: column; gap: 15px;
+      backdrop-filter: blur(5px);
+    }
+    .spinner {
+      width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.3);
+      border-top-color: var(--primary); border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
   </style>
 </head>
 <body>
 
-<!-- خلفية التفاعل الكيميائي -->
+<!-- شاشة التحميل العامة -->
+<div id="globalLoader" class="loader-overlay">
+  <div class="spinner"></div>
+  <h3 style="color: white; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">جاري إجراء التفاعل...</h3>
+</div>
+
+<!-- خلفية التفاعل الكيميائي المستمرة -->
 <div class="bubbles" id="bubblesContainer"></div>
 
 <header>
@@ -175,16 +242,18 @@
 
 <div id="mainMenu" class="container">
   <div class="card" onclick="openStage('prep')">
-    <i class="fas fa-vial"></i> المرحلة الإعدادية
+    <div style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"><i class="fas fa-vial"></i></div>
+    المرحلة الإعدادية
   </div>
   <div class="card" onclick="openStage('sec')">
-    <i class="fas fa-microscope"></i> المرحلة الثانوية
+    <div style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"><i class="fas fa-microscope"></i></div>
+    المرحلة الثانوية
   </div>
 </div>
 
 <div id="stageMenu" class="container" style="display:none;">
   <h2 class="section-title" id="stageTitle"></h2>
-  <div id="classList" style="display: flex; flex-direction: column; gap: 10px;"></div>
+  <div id="classList" style="display: flex; flex-direction: column; gap: 15px;"></div>
   <button class="btn back-btn" onclick="goBack()"><i class="fas fa-arrow-right"></i> العودة للمعمل</button>
 </div>
 
@@ -194,45 +263,44 @@
   <button class="btn back-btn" onclick="goBack()"><i class="fas fa-arrow-right"></i> رجوع للخلف</button>
 </div>
 
+<!-- نافذة إدخال الكود -->
 <div id="passwordModal" class="modal-overlay">
-  <div class="modal-container">
-    <!-- قسم إدخال الكود -->
-    <i class="fas fa-fingerprint" style="font-size: 2.5rem; color: var(--primary); text-shadow: 0 0 10px var(--primary);"></i>
-    <h3 style="margin: 10px 0 5px;">مصادقة كيميائية</h3>
-    <p id="sessionName" style="color: #636e72; font-size: 0.95rem; font-weight: 600;"></p>
+  <div class="modal-container" onclick="event.stopPropagation()">
+    <div style="background: rgba(0, 206, 201, 0.1); width: 80px; height: 80px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px; border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(0,206,201,0.2);">
+      <i class="fas fa-fingerprint" style="font-size: 2.5rem; color: var(--primary);"></i>
+    </div>
     
-    <input type="password" id="passwordInput" class="password-input" placeholder="••••••" maxlength="6" inputmode="numeric">
+    <h3 style="margin: 10px 0 5px; color: var(--dark-bg); font-weight: 800;">مصادقة كيميائية</h3>
+    <p id="sessionName" style="color: #636e72; font-size: 1rem; font-weight: 600; line-height: 1.6;"></p>
     
-    <div style="display: flex; justify-content: space-between; gap: 10px;">
-      <button class="btn btn-primary" id="verifyBtn" onclick="verifyPassword()" style="flex: 2;"><i class="fas fa-bolt"></i> تفعيل</button>
+    <!-- حقل مخصص للأرقام فقط -->
+    <input type="text" id="passwordInput" class="password-input" placeholder="••••••" maxlength="6" inputmode="numeric" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+    
+    <div style="display: flex; justify-content: space-between; gap: 12px;">
+      <button class="btn btn-primary" id="verifyBtn" onclick="verifyPassword()" style="flex: 2;"><i class="fas fa-bolt"></i> تفعيل التفاعل</button>
       <button class="btn btn-danger" onclick="closePasswordModal()" style="flex: 1;">إلغاء</button>
     </div>
 
-    <!-- فاصل جمالي -->
-    <hr style="border: 0; border-top: 1px dashed #b2bec3; margin: 20px 0;">
+    <hr style="border: 0; border-top: 1px dashed #b2bec3; margin: 25px 0;">
 
-    <!-- قسم الدفع وشراء الكود -->
-    <h4 class="payment-title"><i class="fas fa-shopping-cart"></i> لا تملك كود التفاعل؟</h4>
+    <h4 class="payment-title"><i class="fas fa-shopping-cart" style="color: var(--primary);"></i> لا تملك كود التفاعل؟</h4>
     <div class="payment-section">
-      <p style="font-size: 0.85rem; color: #636e72; margin-bottom: 12px; text-align: center;">
+      <p style="font-size: 0.9rem; color: #636e72; margin-bottom: 15px; text-align: center;">
         للحصول على الكود، قم بتحويل <strong>50 ج.م</strong> عبر الطرق التالية:
       </p>
       
-      <!-- طريقة فودافون كاش (محدثة برقمك) -->
       <div class="payment-method">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Vodafone_logo.svg/1024px-Vodafone_logo.svg.png" alt="Vodafone">
         <span>فودافون كاش: 01098264848</span>
       </div>
       
-      <!-- طريقة إنستاباي -->
       <div class="payment-method">
-        <img src="https://play-lh.googleusercontent.com/1-11vB0bE-2A42rN0xV8FzXp3ZlK65qI0x1hN7YtF_Bv3Q8T_j8T_5n8Q0D_Q8D_Q8D_=w240-h480-rw" alt="InstaPay" style="border-radius: 5px;">
+        <img src="https://play-lh.googleusercontent.com/1-11vB0bE-2A42rN0xV8FzXp3ZlK65qI0x1hN7YtF_Bv3Q8T_j8T_5n8Q0D_Q8D_Q8D_=w240-h480-rw" alt="InstaPay" style="border-radius: 8px;">
         <span>إنستاباي: mr.ayman@instapay</span>
       </div>
 
-      <!-- زر الواتساب (محدث برقمك 01098264848) -->
       <a href="https://wa.me/201098264848?text=أهلاً،%20قمت%20بتحويل%20مبلغ%20الحصة%20وأريد%20استلام%20الكود" target="_blank" class="btn-whatsapp">
-        <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> أرسل الإيصال لاستلام الكود
+        <i class="fab fa-whatsapp" style="font-size: 1.4rem;"></i> أرسل الإيصال لاستلام الكود
       </a>
     </div>
   </div>
@@ -240,60 +308,86 @@
 
 <script>
   // =========================================================================
-  // إعدادات الواجهة الخلفية (Backend Configuration)
-  // ضع هنا رابط Google Apps Script بعد نشره.
-  // في وضع التطوير المحلي، سيقوم التطبيق تلقائياً بالتحويل إلى السيرفر المحلي.
+  // إعدادات الواجهة الخلفية (Backend) - ضع الرابط الخاص بك هنا
   // =========================================================================
   const API_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; 
   
-  // الكشف الديناميكي عن بيئة التشغيل للاتصال بالـ API المناسب
-  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '';
-  const apiEndpoint = (isLocalhost && API_URL.includes("YOUR_SCRIPT_ID")) ? `${window.location.origin}/api/verify` : API_URL;
   // =========================================================================
 
-  // إنشاء الفقاعات الكيميائية
-  const bubblesContainer = document.getElementById('bubblesContainer');
-  for (let i = 0; i < 15; i++) {
-    let bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    let size = Math.random() * 40 + 10;
-    bubble.style.width = size + 'px';
-    bubble.style.height = size + 'px';
-    bubble.style.left = Math.random() * 100 + '%';
-    bubble.style.animationDuration = (Math.random() * 8 + 4) + 's';
-    bubble.style.animationDelay = (Math.random() * 5) + 's';
-    bubblesContainer.appendChild(bubble);
+  // إنشاء تأثير الفقاعات في الخلفية
+  function initBubbles() {
+    const container = document.getElementById('bubblesContainer');
+    container.innerHTML = '';
+    for (let i = 0; i < 20; i++) {
+      let bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      let size = Math.random() * 50 + 15;
+      bubble.style.width = size + 'px';
+      bubble.style.height = size + 'px';
+      bubble.style.left = Math.random() * 100 + '%';
+      bubble.style.animationDuration = (Math.random() * 10 + 5) + 's';
+      bubble.style.animationDelay = (Math.random() * 5) + 's';
+      container.appendChild(bubble);
+    }
   }
+  initBubbles();
 
   let unlockedSessions = JSON.parse(localStorage.getItem('unlockedData') || '{}');
   let historyStack = [];
   let pendingData = null;
+  let toastTimeout = null;
 
   function saveUnlocked() { localStorage.setItem('unlockedData', JSON.stringify(unlockedSessions)); }
 
+  // نظام الـ Toast المحسن
   function showToast(msg, isError = false) {
     const existingToast = document.querySelector('.toast');
     if (existingToast) existingToast.remove();
+    
     const toast = document.createElement('div');
     toast.className = 'toast';
-    toast.innerHTML = msg;
-    toast.style.borderColor = isError ? '#ff7675' : '#00cec9';
-    toast.style.boxShadow = isError ? '0 5px 15px rgba(255,118,117,0.3)' : '0 5px 15px rgba(0,206,201,0.3)';
+    toast.innerHTML = (isError ? '<i class="fas fa-exclamation-circle"></i> ' : '<i class="fas fa-check-circle"></i> ') + msg;
+    toast.style.borderColor = isError ? 'var(--danger)' : 'var(--primary)';
+    toast.style.boxShadow = isError ? '0 10px 30px rgba(255,118,117,0.3)' : '0 10px 30px rgba(0,206,201,0.3)';
+    
     document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2500);
+    
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    if(toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400);
+    }, 3500);
   }
 
-  function chemistryReaction() {
-    const colors = ['#00cec9', '#81ecec', '#00b894', '#55efc4'];
-    for(let i = 0; i < 40; i++) {
+  // تأثير الانفجار الكيميائي المتقدم
+  function chemistryReaction(x, y) {
+    const colors = ['#00cec9', '#81ecec', '#00b894', '#55efc4', '#ff7675', '#74b9ff'];
+    const centerX = x || window.innerWidth / 2;
+    const centerY = y || window.innerHeight / 2;
+
+    for(let i = 0; i < 60; i++) {
       const particle = document.createElement('div');
       particle.className = 'reaction-particle';
-      particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-      particle.style.width = (Math.random() * 10 + 5) + 'px';
-      particle.style.height = particle.style.width;
-      particle.style.left = '50%'; particle.style.top = '50%';
-      particle.style.setProperty('--tx', (Math.random() * 200 - 100) + 'px');
-      particle.style.setProperty('--ty', (Math.random() * 200 - 100) + 'px');
+      particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.background = 'currentColor';
+      
+      const size = Math.random() * 12 + 4;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particle.style.left = centerX + 'px'; 
+      particle.style.top = centerY + 'px';
+      
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = Math.random() * 250 + 50;
+      const tx = Math.cos(angle) * velocity;
+      const ty = Math.sin(angle) * velocity + 50; // Add slight gravity feel
+      
+      particle.style.setProperty('--tx', tx + 'px');
+      particle.style.setProperty('--ty', ty + 'px');
+      
       document.body.appendChild(particle);
       setTimeout(() => particle.remove(), 1000);
     }
@@ -319,8 +413,12 @@
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <i class="fas fa-dna" style="color: var(--primary);"></i> ${className}<br>
-        <small style="color: #636e72; font-size: 0.9rem;">🧪 ${unlockedCount}/10 تفاعلات تمت</small>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span><i class="fas fa-dna" style="color: var(--primary); margin-left: 10px;"></i> ${className}</span>
+          <small style="color: var(--primary); font-size: 0.9rem; font-weight: 600; background: rgba(0,206,201,0.1); padding: 5px 10px; border-radius: 10px;">
+            🧪 ${unlockedCount}/10
+          </small>
+        </div>
         <div class="progress-bar"><div class="progress-fill" style="width: ${unlockedCount * 10}%"></div></div>
       `;
       card.onclick = () => openClassDetails(className);
@@ -345,13 +443,17 @@
       const card = document.createElement('div');
       card.className = `session-card ${isUnlocked ? 'unlocked' : 'locked'}`;
       card.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-          <h3 style="font-size: 1.1rem; color: var(--dark-bg);"><i class="fas fa-vials"></i> التفاعل رقم ${i}</h3>
-          ${isUnlocked ? '<span style="color: var(--success); font-size: 0.9rem;"><i class="fas fa-unlock-alt"></i> نشط</span>' : '<span style="color: #b2bec3; font-size: 0.9rem;"><i class="fas fa-lock"></i> خامل</span>'}
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px;">
+          <h3 style="font-size: 1.2rem; color: var(--dark-bg); font-weight: 800;">
+            <i class="fas ${isUnlocked ? 'fa-vials' : 'fa-flask'}"></i> التفاعل رقم ${i}
+          </h3>
+          ${isUnlocked 
+            ? '<span style="color: var(--success); font-size: 0.95rem; font-weight: 700; background: rgba(0,184,148,0.1); padding: 4px 12px; border-radius: 20px;"><i class="fas fa-unlock"></i> نشط</span>' 
+            : '<span style="color: #b2bec3; font-size: 0.95rem; font-weight: 700; background: #f1f2f6; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-lock"></i> خامل</span>'}
         </div>
         <div class="action-buttons">
-          <button class="action-btn video" data-session="${i}" data-type="video"><i class="fas fa-play-circle"></i> الشرح</button>
-          <button class="action-btn homework" data-session="${i}" data-type="homework"><i class="fas fa-file-pdf"></i> التدريب</button>
+          <button class="action-btn video" data-session="${i}" data-type="video"><i class="fas fa-play"></i> الشرح</button>
+          <button class="action-btn homework" data-session="${i}" data-type="homework"><i class="fas fa-file-alt"></i> التدريب</button>
           <button class="action-btn test" data-session="${i}" data-type="test"><i class="fas fa-stopwatch"></i> الاختبار</button>
         </div>
       `;
@@ -375,31 +477,58 @@
   }
 
   function showPasswordModal(sessionNum) {
-    document.getElementById('sessionName').innerHTML = `التفاعل رقم ${sessionNum}<br><small style="color: var(--danger);"><i class="fas fa-shield-alt"></i> يتطلب طاقة التنشيط (الكود)</small>`;
-    document.getElementById('passwordInput').value = '';
-    document.getElementById('passwordModal').style.display = 'flex';
-    setTimeout(() => document.getElementById('passwordInput').focus(), 100);
+    document.getElementById('sessionName').innerHTML = `التفاعل رقم ${sessionNum}<br><small style="color: var(--danger); margin-top: 5px; display: inline-block;"><i class="fas fa-shield-alt"></i> يتطلب طاقة التنشيط (الكود 6 أرقام)</small>`;
+    
+    const input = document.getElementById('passwordInput');
+    input.value = '';
+    input.classList.remove('error');
+    
+    const modalOverlay = document.getElementById('passwordModal');
+    modalOverlay.style.display = 'flex';
+    // For transition effect
+    setTimeout(() => modalOverlay.classList.add('active'), 10);
+    setTimeout(() => input.focus(), 300);
+  }
+
+  function closePasswordModal() { 
+    const modalOverlay = document.getElementById('passwordModal');
+    modalOverlay.classList.remove('active');
+    setTimeout(() => { modalOverlay.style.display = 'none'; }, 300);
+    pendingData = null; 
   }
 
   async function verifyPassword() {
-    const entered = document.getElementById('passwordInput').value;
-    if (!entered) { showToast('⚠️ يرجى إدخال الكود أولاً', true); return; }
+    const input = document.getElementById('passwordInput');
+    const entered = input.value.trim();
+    
+    // Client-side Validation
+    if (!entered || entered.length !== 6) { 
+      triggerError('⚠️ يرجى إدخال الكود المكون من 6 أرقام كاملاً'); 
+      return; 
+    }
 
     const { className, session, type } = pendingData;
     const btn = document.getElementById('verifyBtn');
+    const loader = document.getElementById('globalLoader');
     
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحليل...';
+    loader.style.display = 'flex';
     btn.disabled = true;
 
     try {
-      // الاتصال بالخادم (سواء المحلي أو Apps Script)
-      const response = await fetch(apiEndpoint, {
+      // الاتصال الفعلي بالخادم مع تحديد مهلة (Timeout)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 ثواني كحد أقصى
+
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' }, 
-        body: JSON.stringify({ className: className, session: session, code: entered })
+        body: JSON.stringify({ className: className, session: session, code: entered }),
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
 
+      if (!response.ok) throw new Error('Network response was not ok');
       const result = await response.json();
 
       if (result.success) {
@@ -408,57 +537,54 @@
         saveUnlocked();
         
         closePasswordModal();
-        chemistryReaction();
+        
+        // جلب إحداثيات الزر الذي تم النقر عليه لجعل الانفجار يبدأ منه
+        const rect = btn.getBoundingClientRect();
+        chemistryReaction(rect.left + rect.width/2, rect.top + rect.height/2);
+        
+        // تحديث الواجهة
         historyStack.pop(); 
         openClassDetails(className); 
         openContent(result.data, type, session);
-        showToast('✅ اكتمل التفاعل بنجاح!');
+        showToast('✅ اكتمل التفاعل بنجاح! تم حفظ تنشيط الحصة.');
       } else {
-        triggerError();
+        triggerError('❌ طاقة التنشيط (الكود) غير صحيحة، حاول مجدداً!');
       }
     } catch (error) {
-      console.error("API Connection Error:", error);
-      // ===== كود المحاكاة الاحتياطي (يعمل فقط في حال انقطاع السيرفر تماماً) =====
-      console.log("تم تفعيل وضع المحاكاة الاحتياطي...");
-      setTimeout(() => {
-          if (entered === "123456") { 
-              const mockData = { video: "https://youtube.com", homework: "https://drive.google.com", test: "https://docs.google.com" };
-              unlockedSessions[`${className}-${session}`] = mockData;
-              saveUnlocked(); closePasswordModal(); chemistryReaction(); historyStack.pop();
-              openClassDetails(className); openContent(mockData, type, session);
-              showToast('✅ اكتمل التفاعل بنجاح! (محاكاة)');
-          } else {
-              triggerError();
-          }
-          btn.innerHTML = originalText; btn.disabled = false;
-      }, 1000);
-      // =================================================================
+      console.error("API Error:", error);
+      triggerError('⚠️ تعذر الاتصال بالمعمل (السيرفر)، تأكد من الإنترنت وحاول مجدداً.');
     } finally {
-      if (apiEndpoint !== "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec") {
-          btn.innerHTML = originalText; btn.disabled = false;
-      }
+      loader.style.display = 'none';
+      btn.disabled = false;
     }
   }
 
-  function triggerError() {
-      showToast('❌ كود غير صالح! التفاعل فشل', true);
+  function triggerError(message) {
+      showToast(message, true);
       const input = document.getElementById('passwordInput');
       input.value = ''; input.focus();
+      
+      // تأثير اهتزاز الخطأ
       const modal = document.querySelector('.modal-container');
-      modal.style.animation = 'none';
-      setTimeout(() => modal.style.animation = 'modalPop 0.3s ease', 10);
-      navigator.vibrate && navigator.vibrate([100, 50, 100]);
+      modal.style.transform = 'scale(1) translateX(-10px)';
+      setTimeout(() => modal.style.transform = 'scale(1) translateX(10px)', 50);
+      setTimeout(() => modal.style.transform = 'scale(1) translateX(-10px)', 100);
+      setTimeout(() => modal.style.transform = 'scale(1) translateX(10px)', 150);
+      setTimeout(() => modal.style.transform = 'scale(1) translateX(0)', 200);
+      
+      if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
   }
 
   function openContent(data, type, session) {
     let url = data[type];
     let name = type === 'video' ? 'الشرح' : (type === 'homework' ? 'التدريب' : 'الاختبار');
     if(url && url.trim() !== '') {
-      window.open(url, '_blank'); showToast(`🧪 جاري فتح ${name} للتفاعل ${session}`);
-    } else { showToast(`📢 ${name} الخاص بهذا التفاعل قيد التحضير في المعمل`, true); }
+      showToast(`🧪 جاري فتح ${name} للتفاعل ${session}...`);
+      setTimeout(() => window.open(url, '_blank'), 500); // تأخير بسيط ليقرأ المستخدم الـ Toast
+    } else { 
+      showToast(`📢 ملفات ${name} الخاصة بهذا التفاعل قيد التحضير في المعمل ولم ترفع بعد.`, true); 
+    }
   }
-
-  function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; pendingData = null; }
 
   function goBack() {
     if(historyStack.length === 0) return;
@@ -469,9 +595,13 @@
     document.getElementById(prev).style.display = 'block';
   }
 
-  document.getElementById('passwordInput').addEventListener('keypress', function (e) { if (e.key === 'Enter') verifyPassword(); });
+  document.getElementById('passwordInput').addEventListener('keypress', function (e) { 
+    if (e.key === 'Enter') verifyPassword(); 
+  });
 
-  document.getElementById('passwordModal').onclick = (e) => { if(e.target === document.getElementById('passwordModal')) closePasswordModal(); };
+  document.getElementById('passwordModal').onclick = (e) => { 
+    if(e.target === document.getElementById('passwordModal')) closePasswordModal(); 
+  };
 </script>
 
 </body>
